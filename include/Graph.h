@@ -2,6 +2,8 @@
 #define GRAPH_H
 
 #include <vector>
+#include <map>
+#include <set>
 #include "Global.h"
 using namespace std;
 using namespace global;
@@ -10,9 +12,12 @@ class Graph
 public:
     vector<int> edge[MAX_VERTEX_NUM];
     int degree[MAX_VERTEX_NUM];
+    int excessDegree[MAX_VERTEX_NUM];
+
     int vertexNum,edgeNum;
-    int averageDegree;
+    int vertexNumInDegree[MAX_VERTEX_NUM];
     bool visNode[MAX_VERTEX_NUM];
+
     Graph()
     {
         for(int i=0;i<MAX_VERTEX_NUM;i++){
@@ -34,16 +39,6 @@ public:
         edgeNum++;
     }
 
-    int getVertexNum()
-    {
-        return vertexNum;
-    }
-
-    int getEdgeNum()
-    {
-        return edgeNum;
-    }
-
     double getAverageDegree()
     {
         double sumDegree=2.0*edgeNum;
@@ -54,7 +49,54 @@ public:
         return sumDegree/vertexNum;
     }
 
+    vector<pii>& getDegreeDistribution()
+    {
+        vector<pii> v;
+        set<int> s;
+        map<int,int> mp;
+        for(int i=0;i<MAX_VERTEX_NUM;i++)if(visNode[i]){
+            if(s.find(degree[i])==s.end()){
+                s.insert(degree[i]);
+                mp[degree[i]]++;
+            }
+        }
+        for(auto x:s){
+            v.push_back(pii(x,mp[x]));
+        }
+        return v;
+    }
 
+    vector<pid>& getExcessAverageDegree()
+    {
+        vector<pid> v;
+        set<int> s;
+        map<int,double> mpSum;
+        map<int,int> mpCnt;
+        double sum;
+        for(int i=0;i<MAX_VERTEX_NUM;i++)if(visNode[i]){
+            if(s.find(degree[i])==s.end()){
+                s.insert(degree[i]);
+                mpSum[degree[i]]=0.0;
+            }
+            sum=0.0;
+            for(auto v:edge[i]){
+                sum+=1.0*degree[v];
+            }
+            mpSum[degree[i]]+=sum/edge[i].size();
+            mpCnt[degree[i]]++;
+        }
+        for(auto x:s){
+            v.push_back(pid(x,mpSum[x]/mpCnt[x]));
+        }
+        return v;
+    }
+
+    vector<pid>& getExcessDegreeDistribution()
+    {
+        vector<pid> v;
+        set<int> s;
+        
+    }
 
 };
 

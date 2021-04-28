@@ -14,10 +14,10 @@ void getData()
     while (~fscanf(fin,"%d,%d\n",&u,&v))
     {
         g.addedge(u,v);
-        printf("%d %d\n",u,v);
+        // printf("%d %d\n",u,v);
     }
-    
 }
+
 
 
 int main()

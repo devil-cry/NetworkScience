@@ -26,6 +26,7 @@ namespace global
     #define all(x) (x).begin(),(x).end()
     typedef long long ll;
     typedef pair<int,int> pii;
+    typedef pair<int,double> pid;
     //    ll mod=1e9+7;
     ll mod=998244353;
 
