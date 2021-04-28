@@ -16,13 +16,18 @@ void getData()
         g.addedge(u,v);
         // printf("%d %d\n",u,v);
     }
+    printf("%.4f\n",g.getGlobalClusteringCoefficient());
 }
 
-
+void solve()
+{
+    
+}
 
 int main()
 {
     getData();
+    solve();
 
     system("pause");
     return 0;
