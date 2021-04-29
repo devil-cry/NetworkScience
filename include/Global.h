@@ -31,12 +31,6 @@ namespace global
     ll mod=998244353;
 
     // Start Here
-    // template<typename T>inline void reads(FILE* fin,T &x)
-    // {
-    //     x=0;bool f=0;char ch=fgetc(fin);
-    //     while(ch<'0'||ch>'9')(ch=='-')&&(f=1),ch=fgetc(fin);
-    //     while(ch>='0'&&ch<='9')x=(x<<1)+(x<<3)+(ch^48),ch=fgetc(fin);f&&(x=-x);
-    // }
 
     const int MAX_VERTEX_NUM=150;
 

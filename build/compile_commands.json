@@ -1,7 +1,0 @@
-[
-{
-  "directory": "D:/code/NetworkScience/build",
-  "command": "C:\\MinGW\\mingw64\\bin\\g++.exe   -g -o CMakeFiles\\main.dir\\main.obj -c D:\\code\\NetworkScience\\main.cpp",
-  "file": "D:/code/NetworkScience/main.cpp"
-}
-]
