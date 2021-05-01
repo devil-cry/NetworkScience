@@ -24,6 +24,7 @@ namespace global
     #define pb push_back
     #define bug puts("Bug Here")
     #define all(x) (x).begin(),(x).end()
+    #define getrand(x,y) rand()%(y-x+1)+x
     typedef long long ll;
     typedef pair<int,int> pii;
     typedef pair<int,double> pid;

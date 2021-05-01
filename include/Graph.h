@@ -5,6 +5,9 @@
 #include <map>
 #include <set>
 #include <assert.h>
+#include <algorithm>
+#include <random>
+#include <ctime>
 #include "Global.h"
 using namespace std;
 using namespace global;
@@ -19,8 +22,9 @@ public:
     int vertexNumInDegree[MAX_VERTEX_NUM];
     bool visNode[MAX_VERTEX_NUM];
     int dis[MAX_VERTEX_NUM][MAX_VERTEX_NUM];
+    
 
-    Graph()
+    void init()
     {
         for(int i=0;i<MAX_VERTEX_NUM;i++){
             edge[i].clear();
@@ -50,7 +54,7 @@ public:
         return sumDegree/vertexNum;
     }
 
-    vector<pii>& getDegreeDistribution()
+    vector<pii> getDegreeDistribution()
     {
         vector<pii> v;
         set<int> s;
@@ -58,8 +62,8 @@ public:
         for(int i=0;i<MAX_VERTEX_NUM;i++)if(visNode[i]){
             if(s.find(degree[i])==s.end()){
                 s.insert(degree[i]);
-                mp[degree[i]]++;
             }
+            mp[degree[i]]++;
         }
         for(auto x:s){
             v.push_back(pii(x,mp[x]));
@@ -122,6 +126,7 @@ public:
     double getAveragePathLength()
     {
         assert(vertexNum>1);
+
         floyd();
         int sum=0;
         for(int i=0;i<MAX_VERTEX_NUM;i++)if(visNode[i]){
@@ -150,8 +155,63 @@ public:
         return sum/vertexNum;
     }
 
+    void zeroOrderZeroModel(const Graph& src)
+    {
+        vector<int> tempNode;
+        for(int i=0;i<MAX_VERTEX_NUM;i++)if(src.visNode[i]){
+            tempNode.push_back(i);
+        }
+        int u,v,p,q;
+        for(int i=0;i<src.vertexNum;i++){
+            q=getrand(0,src.vertexNum-1);
+            while( q==i ){
+                q=getrand(0,src.vertexNum-1);
+            }
+            addedge(tempNode[i],tempNode[q]);
+        }
+        for(int i=src.vertexNum;i<src.edgeNum;i++){
+            p=getrand(0,src.vertexNum-1);
+            q=getrand(0,src.vertexNum-1);
+            addedge(tempNode[p],tempNode[q]);
+        }
+    }
 
+    void firstOrderZeroModel(const Graph& src)
+    {
+        pii tempDegree[MAX_VERTEX_NUM];
+        for(int i=0;i<MAX_VERTEX_NUM;i++)
+            tempDegree[i]=pii(src.degree[i],i);
+        sort(tempDegree,tempDegree+MAX_VERTEX_NUM);
+        reverse(tempDegree,tempDegree+MAX_VERTEX_NUM);
+        int l=0,r=MAX_VERTEX_NUM-1;
+        while(r>=0&&tempDegree[r].first==0) r--;
+        int p,q,u,v;
+        srand( (unsigned)time(NULL) );
+        while (l<=r)
+        {
+            p=getrand(l,r);
+            if(tempDegree[p].first==0) break;
+            u=tempDegree[p].second;
+            tempDegree[p].first--;
+            if(tempDegree[p].first==0){
+                swap(tempDegree[p],tempDegree[r]);
+                r--;
+            }
+            q=getrand(l,r);
+            v=tempDegree[q].second;
+            tempDegree[q].first--;
+            if(tempDegree[q].first==0){
+                swap(tempDegree[q],tempDegree[r]);
+                r--;
+            }
+            addedge(u,v);
+        }
+    }
 
+    void secondOrderZeroModel()
+    {
+
+    }
 
 };
 
